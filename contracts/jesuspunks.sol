@@ -3,8 +3,9 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-contract jesusPunks is ERC721 {
-    constructor() ERC721("jesusPunks", "jp"){
+contract jesuspunks is ERC721 {
 
-    }
+constructor() ERC721("jesuspunks", "jp"){
+
+}
 }
