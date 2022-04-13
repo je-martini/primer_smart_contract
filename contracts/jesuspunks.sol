@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-
+import "./base64.sol";
 
 contract jesuspunks is ERC721, ERC721Enumerable {
 using Counters for Counters.Counter;
@@ -34,7 +34,7 @@ function mint() public {
             "ERC721 metada no existe"
             ) ;
 
-        string memory jsonURI = string(
+        string memory jsonURI = base64.encode(
             abi.encodePacked(
                '{ "name": "jesuspunks #',
                tokenId,
@@ -44,7 +44,9 @@ function mint() public {
                 )
         );
 
-        return jsonURI;
+        return string(
+            abi.encodePacked(
+            "data:application/json;base64,", jsonURI);
     }
 
 // this functions needs to be override require for solidity
