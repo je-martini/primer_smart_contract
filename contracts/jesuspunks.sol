@@ -23,6 +23,30 @@ function mint() public {
     _safeMint(msg.sender, current);
     }
 
+    function tokenURI(uint256 tokenId) 
+    public 
+    view 
+    override 
+    returns (string memory) 
+    {
+        require(
+            _exists(tokenId),
+            "ERC721 metada no existe"
+            ) ;
+
+        string memory jsonURI = string(
+            abi.encodePacked(
+               '{ "name": "jesuspunks #',
+               tokenId,
+               '", "description": "jesuspunks es un proyecto de dapp de imagenes erc721", "imagen": "', 
+               "// to do : calculate image url",
+               '"}' 
+                )
+        );
+
+        return jsonURI;
+    }
+
 // this functions needs to be override require for solidity
  function _beforeTokenTransfer(address from, address to, uint256 tokenId)
         internal
