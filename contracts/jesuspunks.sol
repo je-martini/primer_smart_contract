@@ -4,9 +4,9 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "./base64.sol";
-
-contract jesuspunks is ERC721, ERC721Enumerable {
+import "./Base64.sol";
+import "./jesuspunksDNA.sol";
+contract jesuspunks is ERC721, ERC721Enumerable, jesuspunksDNA {
 using Counters for Counters.Counter;
 
 Counters.Counter private _idCounter;
@@ -32,22 +32,19 @@ function mint() public {
         require(
             _exists(tokenId),
             "ERC721 metada no existe"
-            ) ;
+            );
 
-        string memory jsonURI = base64.encode(
+        string memory jsonURI = Base64.encode(
             abi.encodePacked(
-               '{ "name": "jesuspunks #',
-               tokenId,
-               '", "description": "jesuspunks es un proyecto de dapp de imagenes erc721", "imagen": "', 
-               "// to do : calculate image url",
-               '"}' 
-                )
+                '{ "name": "jesuspunks #',
+                tokenId,
+                '", "description": "jesuspunks are randomized Avataaars stored on chain to learn DApp development by jesus", "image": "',
+                "// TO DO: Calculate image URL",
+                '"}'
+            )
         );
 
-        return string(
-            abi.encodePacked(
-            "data:application/json;base64,", jsonURI);
-    }
+        return string(abi.encodePacked("data:application/json;base64,", jsonURI));}
 
 // this functions needs to be override require for solidity
  function _beforeTokenTransfer(address from, address to, uint256 tokenId)
