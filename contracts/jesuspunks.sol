@@ -4,10 +4,13 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 import "./Base64.sol";
 import "./jesuspunksDNA.sol";
 contract jesuspunks is ERC721, ERC721Enumerable, jesuspunksDNA {
+
 using Counters for Counters.Counter;
+using Strings for uint256;
 
 Counters.Counter private _idCounter;
 uint256 public maxSupply;
@@ -24,6 +27,7 @@ function mint() public {
 
     tokenDNA[current] = deterministicPseudoRandomDNA(current, msg.sender);
     _safeMint(msg.sender, current);
+    _idCounter.increment();
     }
 
     function _baseURI() internal pure override returns(string memory)
@@ -64,7 +68,7 @@ function mint() public {
                 )
             );
         }
-        
+         
     return string(abi.encodePacked(params, "&topType=", getTopType(_dna)));
 
     }
@@ -94,7 +98,7 @@ function mint() public {
         string memory jsonURI = Base64.encode(
             abi.encodePacked(
                 '{ "name": "jesuspunks #',
-                tokenId,
+                tokenId.toString(),
                 '", "description": "jesuspunks are randomized Avataaars stored on chain to learn DApp development by jesus", "image": "',
                 image,
                 '"}'
@@ -102,6 +106,13 @@ function mint() public {
         );
 
         return string(abi.encodePacked("data:application/json;base64,", jsonURI));}
+
+
+
+
+
+
+
 
 // this functions needs to be override require for solidity
  function _beforeTokenTransfer(address from, address to, uint256 tokenId)
